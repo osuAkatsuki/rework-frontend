@@ -1,0 +1,26 @@
+<!-- prettier-ignore -->
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center h-auto">
+  <div
+    class="p-4 my-8 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700"
+  >
+    <div class="flex flex-col sm:flex-row items-center">
+      <img
+        src="{{ url_for('static', path='images/logo.png') }}"
+        class="rounded-full"
+      />
+      <div class="ml-4">
+        <h1 class="text-2xl font-semibold text-white">Akatsuki PP Reworks</h1>
+        <p class="text-gray-500 dark:text-gray-400">
+          This page is dedicated to show PP reworks results that are being
+          developed by the Akatsuki team.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

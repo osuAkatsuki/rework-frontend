@@ -1,0 +1,10 @@
+fastapi[all]
+git+https://github.com/akatsuki-v2/shared-modules
+httpx
+jinja2
+orjson
+python-dotenv
+python-multipart
+structlog
+uvicorn
+uvloop

@@ -1,0 +1,62 @@
+<!-- prettier-ignore -->
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center h-auto">
+  <div
+    class="p-4 my-8 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700"
+  >
+    <h3 class="mb-3 text-xl font-medium text-gray-900 dark:text-white">
+      Login!
+    </h3>
+    <form action="/api/v1/sessions" method="post">
+      <div class="relative w-full mr-3 mb-3">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          for="username"
+        >
+          Username
+        </label>
+        <div class="absolute flex items-center pl-3 pt-3 pointer-events-none">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <input
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="username"
+          type="text"
+          placeholder="eg. Aika"
+          name="username"
+        />
+      </div>
+
+      <div class="relative w-full mr-3 mb-6">
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          for="password"
+        >
+          Password
+        </label>
+        <div class="absolute flex items-center pl-3 pt-3 pointer-events-none">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <input
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          id="password"
+          type="password"
+          placeholder="******************"
+          name="password"
+        />
+      </div>
+      <div class="flex items-center justify-between">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

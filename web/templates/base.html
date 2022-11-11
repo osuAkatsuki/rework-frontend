@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='css/main.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='css/tailwind.css') }}"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', path='css/fa.css') }}" />
+    <script src="{{ url_for('static', path='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', path='js/alpine.js') }}"></script>
+    <script src="{{ url_for('static', path='js/main.js') }}"></script>
+    <title>{% block title %}{% endblock %} | Akatsuki Rework</title>
+    {% endblock %}
+  </head>
+
+  <body class="dark bg-neutral-800">
+    <script>
+      0;
+    </script>
+    <!-- create a simple and clean navbar for big devices -->
+    <div
+      class="hidden lg:block bg-white rounded border border-gray-700 dark:bg-gray-800"
+    >
+      <div
+        class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:px-6 py-2.5"
+      >
+        <a href="/" class="flex items-center">
+          <span
+            class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
+            >Akatsuki PP Reworks</span
+          >
+        </a>
+        <div class="flex items-center">
+          <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium">
+            <li>
+              <a
+                href="/"
+                class="text-gray-900 dark:text-white hover:bg-gray-500 hover:rounded-md hover:bg-opacity-25 p-2"
+                aria-current="page"
+                >Home</a
+              >
+            </li>
+          </ul>
+
+          <div class="container flex justify-center mx-auto">
+            <div x-data="{ open: false }" class="relative">
+              <button
+                @click="open = true"
+                class="text-gray-900 dark:text-white hover:bg-gray-500 hover:rounded-md hover:bg-opacity-25 p-2 mr-6"
+              >
+                Reworks
+              </button>
+
+              <template x-if="open">
+                <div
+                  @click.away="open = false"
+                  x-transition:enter="transition ease-out origin-top-left duration-200"
+                  x-transition:enter-start="opacity-0 transform scale-90"
+                  x-transition:enter-end="opacity-100 transform scale-100"
+                  x-transition:leave="transition origin-top-left ease-in duration-100"
+                  x-transition:leave-start="opacity-100 transform scale-100"
+                  x-transition:leave-end="opacity-0 transform scale-90"
+                  class="absolute z-20 right-0 w-80 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-700 dark:divide-gray-600 text-sm"
+                >
+                  {% if nav_reworks %} {% for rework in nav_reworks %}
+                  <a
+                    href="/rework/{{ rework.id }}"
+                    class="block px-4 py-2 text-gray-900 hover:bg-gray-500 hover:rounded-md hover:bg-opacity-25 dark:text-white"
+                    >{{ rework.name }}</a
+                  >
+                  {% endfor %} {% else %}
+                  <div href="#" class="block px-4 py-2 text-gray-900">
+                    No active reworks
+                  </div>
+                  {% endif %}
+                </div>
+              </template>
+            </div>
+          </div>
+
+          {% if user %}
+          <!-- prettier-ignore -->
+          <div class="container flex justify-center mx-auto">
+            <div x-data="{ open: false }" class="relative">
+              <button
+                @click="open = true"
+                class="text-gray-900 dark:text-white hover:bg-gray-500 hover:rounded-md hover:bg-opacity-25 p-2"
+              >
+                <img
+                  class="w-8 h-8 rounded-full"
+                  src="https://a.akatsuki.pw/{{ user.id }}"
+                  alt="user avatar"
+                />
+              </button>
+
+              <template x-if="open">
+                <div
+                  @click.away="open = false"
+                  x-transition:enter="transition ease-out origin-top-left duration-200"
+                  x-transition:enter-start="opacity-0 transform scale-90"
+                  x-transition:enter-end="opacity-100 transform scale-100"
+                  x-transition:leave="transition origin-top-left ease-in duration-100"
+                  x-transition:leave-start="opacity-100 transform scale-100"
+                  x-transition:leave-end="opacity-0 transform scale-90"
+                  class="absolute z-20 right-0 w-72 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-700 dark:divide-gray-600 text-sm"
+                >
+                  <div class="py-3 px-4 text-sm text-gray-900 dark:text-white">
+                    <div class="font-medium">{{ user.name }}</div>
+                  </div>
+                  <div class="m-1">
+                    <hr
+                      class="my-2 h-px bg-gray-200 border-0 dark:bg-gray-800"
+                    />
+                  </div>
+                  <div
+                    class="block p-3 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 hover:cursor-pointer"
+                    data-menu="profiles"
+                    onclick="invokeDropdownMenu(this)"
+                  >
+                    Your Profile
+                    <i
+                      data-dropdown-icon="profiles"
+                      class="fa-solid fa-chevron-down"
+                    ></i>
+                  </div>
+
+                  <div
+                    class="hidden px-4 pt-2 pb-4 space-y-1"
+                    data-dropdown-menu="profiles"
+                  >
+                    {% for rework in user.reworks %}
+                    <a
+                      href="/rework/{{ rework.id }}/users/{{ user.id }}"
+                      class="block px-2 py-1.5 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                      >{{ rework.name }}</a
+                    >
+                    {% endfor %}
+                  </div>
+                  <a
+                    href="/api/v1/sessions/remove"
+                    class="block p-3 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                    >Logout</a
+                  >
+                </div>
+              </template>
+            </div>
+          </div>
+          {% else %}
+          <a href="/auth/login">
+            <button
+              type="button"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Login
+            </button>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="lg:hidden bg-white rounded border border-gray-700 dark:bg-gray-800"
+    >
+      <div class="flex flex-row items-center justify-between px-4 py-2.5">
+        <a href="/" class="flex items-center">
+          <span
+            class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
+            >Akatsuki PP Reworks</span
+          >
+        </a>
+
+        <!-- dropdown -->
+        <div x-data="{ open: false }" class="relative">
+          <button
+            @click="open = true"
+            class="block px-4 py-2 border-gray-200 dark:bg-gray-400 focus:outline-none rounded-md"
+          >
+            <i class="fa-solid fa-list"></i>
+          </button>
+
+          <template x-if="open">
+            <div
+              @click.away="open = false"
+              x-transition:enter="transition ease-out origin-top-left duration-200"
+              x-transition:enter-start="opacity-0 transform scale-90"
+              x-transition:enter-end="opacity-100 transform scale-100"
+              x-transition:leave="transition origin-top-left ease-in duration-100"
+              x-transition:leave-start="opacity-100 transform scale-100"
+              x-transition:leave-end="opacity-0 transform scale-90"
+              class="absolute z-20 right-0 w-80 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-700 dark:divide-gray-600 text-sm"
+            >
+              <a
+                href="/"
+                class="block p-3 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                aria-current="page"
+                >Home</a
+              >
+              <div
+                class="block p-3 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 hover:cursor-pointer"
+                data-menu="reworks"
+                onclick="invokeDropdownMenu(this)"
+              >
+                Reworks
+                <i
+                  data-dropdown-icon="reworks"
+                  class="fa-solid fa-chevron-down"
+                ></i>
+              </div>
+
+              <div
+                class="hidden px-4 pt-2 pb-4 space-y-1"
+                data-dropdown-menu="reworks"
+              >
+                {% for rework in nav_reworks %}
+                <a
+                  href="/rework/{{ rework.id }}"
+                  class="block px-2 py-1.5 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                  >{{ rework.name }}</a
+                >
+                {% endfor %}
+              </div>
+              <div class="m-1">
+                <hr class="my-2 h-px bg-gray-200 border-0 dark:bg-gray-800" />
+              </div>
+              {% if user %}
+
+              <div
+                class="block p-3 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 hover:cursor-pointer"
+                data-menu="profiles"
+                onclick="invokeDropdownMenu(this)"
+              >
+                Your Profile
+                <i
+                  data-dropdown-icon="profiles"
+                  class="fa-solid fa-chevron-down"
+                ></i>
+              </div>
+
+              <div
+                class="hidden px-4 pt-2 pb-4 space-y-1"
+                data-dropdown-menu="profiles"
+              >
+                <div
+                  class="block px-2 py-1.5 text-sm font-medium rounded-md text-gray-900 dark:text-white flex flex-row"
+                >
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    src="https://a.akatsuki.pw/{{ user.id }}"
+                    alt="user avatar"
+                  />
+                  <span class="ml-2 mt-1.5">{{ user.name }}</span>
+                </div>
+                <div class="m-1">
+                  <hr class="my-2 h-px bg-gray-200 border-0 dark:bg-gray-800" />
+                </div>
+                {% for rework in user.reworks %}
+                <a
+                  href="/rework/{{ rework.id }}/users/{{ user.id }}"
+                  class="block px-2 py-1.5 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                  >{{ rework.name }}</a
+                >
+                {% endfor %}
+              </div>
+              <a
+                href="/api/v1/sessions/remove"
+                class="block p-3 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                >Logout</a
+              >
+              {% else %}
+              <a
+                href="/auth/login"
+                class="block p-3 text-sm font-medium rounded-md text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                >Login</a
+              >
+              {% endif %}
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- prettier-ignore -->
+    {% if rework_data %}
+    <nav class="bg-gray-50 dark:bg-gray-700">
+      <div class="py-3 px-4 mx-auto max-w-screen-xl md:px-6">
+        <div class="flex flex-row items-center">
+          <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium">
+            <li>
+              <a
+                href="/rework/{{ rework_data.id }}/leaderboard"
+                class="text-gray-900 dark:text-white hover:underline p-2"
+                aria-current="page"
+                >Leaderboard</a
+              >
+            </li>
+            <li>
+              <a
+                href="/rework/{{ rework_data.id }}/queue"
+                class="text-gray-900 dark:text-white hover:underline p-2"
+                aria-current="page"
+                >Queue</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="text-gray-900 dark:text-white hover:underline p-2"
+                style="display: none"
+                aria-current="page"
+                >Changelog</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% endif %}
+
+    <!-- prettier-ignore -->
+
+    {% for msg in get_ctx_messages(request) %}
+      {% if msg['path'] == request.path %}
+        {% if msg['state'] == 'success'%}
+    <div
+      class="bg-green-700 border border-green-400 text-white px-4 py-3 rounded relative text-center"
+      role="alert"
+    >
+      <strong class="font-bold">Success!</strong>
+      <span class="block sm:inline">{{ msg['message'] }}</span>
+    </div>
+    {% elif msg['state'] == 'error'%}
+    <div
+      class="bg-red-700 border border-red-400 text-white px-4 py-3 rounded relative text-center"
+      role="alert"
+    >
+      <strong class="font-bold">Error!</strong>
+      <span class="block sm:inline">{{ msg['message'] }}</span>
+    </div>
+    {% endif %} {% endif %} {% endfor %}
+
+    <div class="container mx-auto">
+      <div class="py-4"></div>
+      {% block content %} {% endblock %}
+      <div class="py-4"></div>
+    </div>
+
+    <div class="container mx-auto">
+      <div class="py-4"></div>
+      <footer
+        class="fixed bottom-0 left-0 bg-red-500 w-full h-12 p-4 bg-white rounded-lg shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800"
+      >
+        <span class="text-sm text-gray-500 text-center dark:text-gray-400"
+          >© 2022
+          <a href="https://akatsuki.pw/" class="hover:underline">Akatsuki</a>.
+          All Rights Reserved.
+        </span>
+        <ul
+          class="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 mt-0"
+        >
+          <li>
+            <a
+              href="https://github.com/osuAkatsuki"
+              class="mr-4 hover:underline md:mr-6"
+              >Github</a
+            >
+          </li>
+          <li>
+            <a href="https://akatsuki.pw" class="mr-4 hover:underline md:mr-6"
+              >osu! Server</a
+            >
+          </li>
+        </ul>
+      </footer>
+    </div>
+  </body>
+</html>
