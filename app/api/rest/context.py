@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from fastapi import Request
 
 from app.common.context import Context
