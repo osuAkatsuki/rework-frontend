@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-
 from __future__ import annotations
+
 import atexit
 
 import uvicorn
 
-from app.common import settings
-import app.logging
 import app.exception_handling
+import app.logging
+from app.common import settings
 
 try:
     __import__("uvloop").install()
