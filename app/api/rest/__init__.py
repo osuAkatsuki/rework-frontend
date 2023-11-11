@@ -44,6 +44,10 @@ def init_routes(api: FastAPI) -> None:
     api.include_router(v1_router)
     api.include_router(public_router)
 
+    @api.get("/_health")
+    async def healthcheck():
+        return {"status": "ok"}
+
 
 def init_api():
     api = FastAPI()
