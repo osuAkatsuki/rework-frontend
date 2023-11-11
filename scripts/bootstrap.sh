@@ -15,7 +15,7 @@ fi
 
 if [[ $PULL_SECRETS_FROM_VAULT -eq 1 ]]; then
   # TODO: revert to $APP_ENV
-  akatsuki vault get score-service production-k8s -o .env
+  akatsuki vault get rework-frontend production-k8s -o .env
   source .env
 fi
 
