@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import logging
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from shared_modules import logger
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.api import middlewares
@@ -12,17 +13,17 @@ from app.services import http
 def init_http(api: FastAPI) -> None:
     @api.on_event("startup")
     async def startup_http() -> None:
-        logger.info("Starting up http connector")
+        logging.info("Starting up http connector")
         service_http = http.ServiceHTTP()
         api.state.http = service_http
-        logger.info("HTTP connector started up")
+        logging.info("HTTP connector started up")
 
     @api.on_event("shutdown")
     async def shutdown_http() -> None:
-        logger.info("Shutting down http connector")
+        logging.info("Shutting down http connector")
         await api.state.http.aclose()
         del api.state.http
-        logger.info("HTTP connector shut down")
+        logging.info("HTTP connector shut down")
 
 
 def init_middlewares(api: FastAPI) -> None:
