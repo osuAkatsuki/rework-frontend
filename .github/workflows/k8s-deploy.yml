@@ -43,9 +43,10 @@ jobs:
 
       - name: Get kubeconfig from github secrets
         run: |
-            mkdir -p $HOME/.kube
-            echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
-            sudo chown $(id -u):$(id -g) $HOME/.kube/config
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+          sudo chown $(id -u):$(id -g) $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
 
       - name: Install helm
         uses: azure/setup-helm@v3
@@ -66,12 +67,13 @@ jobs:
 
       - name: Clear pending deployments
         run: |
-          kubectl get secret -lname=rework-frontend-production -lstatus=pending-upgrade -lstatus=pending-install -oname | xargs --no-run-if-empty kubectl delete
+          kubectl delete secret -l 'status in (pending-install, pending-upgrade, pending-rollback),name=rework-frontend-production'
 
       - name: Show manifest diff since previous release
         run: |
           helm diff upgrade \
           --allow-unreleased \
+          --color=true \
           --values chart/values.yaml \
           rework-frontend-production \
           common-helm-charts/microservice-base/
@@ -81,7 +83,8 @@ jobs:
           helm upgrade \
             --install \
             --atomic \
-            --wait --timeout 480s \
+            --wait --timeout 10m \
+            --cleanup-on-fail \
             --values chart/values.yaml \
             rework-frontend-production \
             common-helm-charts/microservice-base/
