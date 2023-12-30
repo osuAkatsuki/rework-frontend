@@ -7,7 +7,7 @@ from app.common.context import Context
 
 
 class UsersRepo:
-    BASE_URI = f"http://localhost:{settings.API_PORT}"
+    BASE_URI = settings.PERFORMANCE_SERVICE_BASE_URL
 
     def __init__(self, ctx: Context) -> None:
         self.ctx = ctx

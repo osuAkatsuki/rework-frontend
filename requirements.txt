@@ -5,6 +5,7 @@ httpx
 jinja2
 orjson
 python-dotenv
+python-json-logger
 python-multipart
 structlog
 uvicorn
