@@ -1,1 +1,6 @@
 * @cmyui @tsunyoku @lenforiee
+
+# Infrastructure
+/.github/* @cmyui
+/tf/* @cmyui
+/chart/* @cmyui
