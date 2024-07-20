@@ -157,7 +157,7 @@ function loadLeaderboard() {
                             href="/rework/${leaderboardConfig.rework_id}/users/${user['user_id']}"
                             >
                             <img
-                                src="https://twemoji.maxcdn.com/v/latest/svg/${country(user['country'])}.svg"
+                                src="https://osu.ppy.sh/assets/images/flags/${country(user["country"])}.svg"
                                 alt="${user['country']}"
                                 class="inline-block h-6 mr-1"
                             />
