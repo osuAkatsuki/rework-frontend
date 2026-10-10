@@ -258,7 +258,7 @@ function loadUserCardsFromInput(input) {
                             <div class="flex-shrink-0">
                                 <img
                                 class="w-10 h-10 rounded-full"
-                                src="https://a.akatsuki.pw/${user['id']}"
+                                src="https://a.akatsuki.gg/${user['id']}"
                                 alt=""
                                 />
                             </div>
