@@ -28,8 +28,9 @@ async def login(
 ):
 
     return templates.TemplateResponse(
-        "login.html",
-        {"request": request, "ctx": ctx, "user": user, "nav_reworks": nav_reworks},
+        request=request,
+        name="login.html",
+        context={"ctx": ctx, "user": user, "nav_reworks": nav_reworks},
     )
 
 
@@ -56,9 +57,9 @@ async def rework_queue(
         return responses.flash("/", "Rework not found!", "error", request)
 
     return templates.TemplateResponse(
-        "queue.html",
-        {
-            "request": request,
+        request=request,
+        name="queue.html",
+        context={
             "ctx": ctx,
             "user": user,
             "nav_reworks": nav_reworks,

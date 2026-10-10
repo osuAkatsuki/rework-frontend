@@ -39,9 +39,9 @@ async def rework_user(
         return responses.flash("/", "User not found!", "error", request)
 
     return templates.TemplateResponse(
-        "profile.html",
-        {
-            "request": request,
+        request=request,
+        name="profile.html",
+        context={
             "ctx": ctx,
             "user": user,
             "nav_reworks": nav_reworks,
