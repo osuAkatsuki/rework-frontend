@@ -47,9 +47,9 @@ async def rework_leaderboard(
         return responses.flash("/", "Rework not found!", "error", request)
 
     return templates.TemplateResponse(
-        "rework.html",
-        {
-            "request": request,
+        request=request,
+        name="rework.html",
+        context={
             "ctx": ctx,
             "user": user,
             "page_num": page,

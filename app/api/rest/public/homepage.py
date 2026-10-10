@@ -25,6 +25,7 @@ async def homepage(
 ):
 
     return templates.TemplateResponse(
-        "homepage.html",
-        {"request": request, "ctx": ctx, "user": user, "nav_reworks": nav_reworks},
+        request=request,
+        name="homepage.html",
+        context={"ctx": ctx, "user": user, "nav_reworks": nav_reworks},
     )
