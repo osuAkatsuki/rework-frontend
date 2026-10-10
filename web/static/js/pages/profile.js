@@ -40,7 +40,7 @@ function loadScores() {
                         #${numberCommas(score['old_rank'])}
                     </td>
                     <td class="py-2 px-4 dark:bg-gray-700">
-                        <a href="https://akatsuki.pw/beatmaps/${score['beatmap']['id']}">
+                        <a href="https://akatsuki.gg/beatmaps/${score['beatmap']['id']}">
                             <img
                                 src="https://assets.ppy.sh/beatmaps/${score['beatmap']['set_id']}/covers/list.jpg"
                                 class="h-12 w-20 object-cover rounded-md object-cover inline-block"
