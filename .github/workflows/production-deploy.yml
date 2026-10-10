@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - codex/fix-template-response
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
